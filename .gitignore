@@ -12,10 +12,12 @@ __pycache__/
 # Environment variables
 .env
 week15/.env
+week16/.env
 
 # ChromaDB data
 data/chroma_db/
 week15/data/chroma_db/
+week16/data/chroma_db/
 
 # IDE
 .vscode/
@@ -28,6 +30,7 @@ Thumbs.db
 # Pytest cache
 .pytest_cache/
 week15/.pytest_cache/
+week16/.pytest_cache/
 
 # Temporary files
 *.tmp
