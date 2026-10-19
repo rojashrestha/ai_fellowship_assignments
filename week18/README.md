@@ -6,7 +6,7 @@ Developed for the **Trustworthy AI Assignment (Week 18)**.
 
 ---
 
-## ðŸŒŸ Overview & Capabilities
+## Overview & Capabilities
 
 The system enforces multi-tiered security controls across both input and output channels of an AI assistant:
 
@@ -22,7 +22,7 @@ The system enforces multi-tiered security controls across both input and output 
 
 ---
 
-## ðŸ“‚ Project Structure
+##‚ Project Structure
 
 ```
 trustworthy_ai_guardrails/
@@ -57,7 +57,7 @@ trustworthy_ai_guardrails/
 
 ---
 
-## ðŸš€ Quickstart & Setup
+##  Quickstart & Setup
 
 ### 1. Prerequisites
 - Python 3.9+ (Python 3.11 recommended)
@@ -77,7 +77,7 @@ pip install -r requirements.txt
 
 ---
 
-## ðŸ’» Usage Examples
+## » Usage Examples
 
 ### 1. Run Comprehensive Test Suite (25 Test Cases & Metrics)
 ```powershell
@@ -117,7 +117,7 @@ print("Final Response:", result.final_output)
 
 ---
 
-## ðŸ“Š Summary of Evaluation Results
+##  Summary of Evaluation Results
 
 | Metric | Result | Description |
 | :--- | :---: | :--- |
@@ -133,8 +133,5 @@ print("Final Response:", result.final_output)
 
 Comprehensive test results, confusion matrix, and performance metrics are verified via python main.py --test.
 
----
 
-## ðŸ›¡ï¸ License
-Educational coursework project for Trustworthy AI.
 
