@@ -26,33 +26,33 @@ The system enforces multi-tiered security controls across both input and output 
 
 ```
 trustworthy_ai_guardrails/
-â”œâ”€â”€ guardrails/                      # Core Guardrail Framework
-â”‚   â”œâ”€â”€ __init__.py                  # Package exports
-â”‚   â”œâ”€â”€ models.py                    # Schema definitions & dataclasses
-â”‚   â”œâ”€â”€ pipeline.py                  # End-to-end pipeline orchestrator
-â”‚   â”œâ”€â”€ input_guardrails/
-â”‚   â”‚   â”œâ”€â”€ __init__.py
-â”‚   â”‚   â”œâ”€â”€ pii_detector.py          # PII detection & Luhn card validation
-â”‚   â”‚   â”œâ”€â”€ prompt_injection.py      # Multi-heuristic injection detector
-â”‚   â”‚   â””â”€â”€ sensitive_topics.py      # Policy & crisis topic classifier
-â”‚   â””â”€â”€ output_guardrails/
-â”‚       â”œâ”€â”€ __init__.py
-â”‚       â”œâ”€â”€ schema_validator.py      # Response contract & schema validator
-â”‚       â”œâ”€â”€ groundedness.py          # Claim support & hallucination detector
-â”‚       â””â”€â”€ sensitive_info.py        # Output secret & PII leakage scanner
-â”œâ”€â”€ tests/
-â”‚   â”œâ”€â”€ __init__.py
-â”‚   â”œâ”€â”€ test_cases.py                # 25 comprehensive test scenarios
-â”‚   â””â”€â”€ test_suite.py                # Automated evaluation & metric engine
-â”œâ”€â”€ examples/
-â”‚   â””â”€â”€ demo.py                      # Interactive 6-scenario demonstration
-â”œâ”€â”€ report/
-â”‚   â”œâ”€â”€ evaluation_report.md         # Full evaluation report (Sections a-d, failures, trade-offs)
-â”‚   â”œâ”€â”€ architecture_diagram.md      # Mermaid diagrams & sequence flows
-â”‚   â””â”€â”€ test_run_output.md           # Raw test suite execution export
-â”œâ”€â”€ main.py                          # Unified CLI entrypoint
-â”œâ”€â”€ requirements.txt                 # Dependencies
-â””â”€â”€ README.md                        # Documentation
+guardrails/                      # Core Guardrail Framework
+__init__.py                  # Package exports
+models.py                    # Schema definitions & dataclasses
+pipeline.py                  # End-to-end pipeline orchestrator
+input_guardrails/
+__init__.py
+pii_detector.py          # PII detection & Luhn card validation
+prompt_injection.py      # Multi-heuristic injection detector
+sensitive_topics.py      # Policy & crisis topic classifier
+output_guardrails/
+__init__.py
+schema_validator.py      # Response contract & schema validator
+groundedness.py          # Claim support & hallucination detector
+sensitive_info.py        # Output secret & PII leakage scanner
+tests/
+__init__.py
+test_cases.py                # 25 comprehensive test scenarios
+test_suite.py                # Automated evaluation & metric engine
+examples/
+demo.py                      # Interactive 6-scenario demonstration
+report/
+evaluation_report.md         # Full evaluation report (Sections a-d, failures, trade-offs)
+architecture_diagram.md      # Mermaid diagrams & sequence flows
+test_run_output.md           # Raw test suite execution export
+main.py                          # Unified CLI entrypoint
+requirements.txt                 # Dependencies
+README.md                        # Documentation
 ```
 
 ---
