@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------
+  # AI Assistant Backend API (FastAPI)
+  # -------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_assistant_api
+    ports:
+      - "8000:8000"
+    environment:
+      - PRIMARY_PROVIDER=gemini
+      - FALLBACK_PROVIDER=openai
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - RATE_LIMIT_REQUESTS_PER_MINUTE=60
+      - CACHE_ENABLED=true
+      - CHROMA_PERSIST_DIRECTORY=/app/data/chroma_db
+    volumes:
+      - chroma_data:/app/data/chroma_db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  # -------------------------------------------------------
+  # Interactive Web Interface (Streamlit)
+  # -------------------------------------------------------
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_assistant_ui
+    command: ["streamlit", "run", "app/ui/streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+    driver: local
