@@ -4,7 +4,7 @@ This repository contains all my assignments, projects, and practical implementat
 
 ---
 
-## 📚 Curriculum & Completed Modules
+## 📚 Curriculum & Completed Modules.
 
 | Folder | Topic / Module | Description |
 | :--- | :--- | :--- |
