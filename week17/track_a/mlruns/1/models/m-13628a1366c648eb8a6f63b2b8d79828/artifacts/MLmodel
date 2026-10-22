@@ -1,0 +1,28 @@
+artifact_path: file:C:/Users/acer/Desktop/week17/track_a/mlruns/1/models/m-13628a1366c648eb8a6f63b2b8d79828/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.12.10
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.1
+    skops_trusted_types:
+    - sklearn.tree._tree.Tree
+    - sklearn.preprocessing._label.LabelBinarizer
+    - numpy.dtype
+    - xgboost.core.Booster
+    - xgboost.sklearn.XGBClassifier
+mlflow_version: 3.16.1
+model_id: m-13628a1366c648eb8a6f63b2b8d79828
+model_size_bytes: 4343038
+model_uuid: m-13628a1366c648eb8a6f63b2b8d79828
+prompts: null
+run_id: a17103b47bb64a1894ee9e0710f50e4b
+utc_time_created: '2026-10-19 10:54:48.230454'
