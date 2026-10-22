@@ -4,7 +4,7 @@ This repository contains all my assignments, projects, and practical implementat
 
 ---
 
-## 📚 Curriculum & Completed Modules.
+## 📚 Curriculum & Completed Modules
 
 | Folder | Topic / Module | Description |
 | :--- | :--- | :--- |
@@ -41,6 +41,10 @@ cd week17/track_a
 uv sync
 uv run python src/train.py
 
-* **Contributor**: [@rojasthaa](https://github.com/rojasthaa)
+```
 
+---
 
+## 👤 Contributors
+* **Roja Shrestha** — [@rojashrestha](https://github.com/rojashrestha)
+* **Contributor** — [@rojasthaa](https://github.com/rojasthaa)
