@@ -40,3 +40,7 @@ cd ai_fellowship_assignments
 cd week17/track_a
 uv sync
 uv run python src/train.py
+
+* **Contributor**: [@rojasthaa](https://github.com/rojasthaa)
+
+
