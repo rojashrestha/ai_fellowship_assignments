@@ -1,0 +1,62 @@
+services:
+  # -------------------------------------------------------------
+  # Track A: Telco Churn Prediction API (FastAPI)
+  # -------------------------------------------------------------
+  - type: web
+    name: telco-churn-api
+    rootDir: week17/track_a
+    runtime: docker
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+
+  # -------------------------------------------------------------
+  # Track B: Agentic AI Assistant Backend API (FastAPI)
+  # -------------------------------------------------------------
+  - type: web
+    name: agentic-ai-backend
+    rootDir: week17/track_b
+    runtime: docker
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PRIMARY_PROVIDER
+        value: gemini
+      - key: FALLBACK_PROVIDER
+        value: openai
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: RATE_LIMIT_REQUESTS_PER_MINUTE
+        value: 60
+      - key: CACHE_ENABLED
+        value: true
+      - key: PORT
+        value: 8000
+
+  # -------------------------------------------------------------
+  # Track B: Interactive Web UI (Streamlit)
+  # -------------------------------------------------------------
+  - type: web
+    name: agentic-ai-ui
+    rootDir: week17/track_b
+    runtime: docker
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    dockerCommand: streamlit run app/ui/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    plan: free
+    envVars:
+      - key: API_URL
+        fromService:
+          type: web
+          name: agentic-ai-backend
+          property: host
+      - key: PORT
+        value: 8501

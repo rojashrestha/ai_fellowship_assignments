@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import mlflow.pyfunc
@@ -5,8 +6,15 @@ import pandas as pd
 
 app = FastAPI(title="Telco Churn Prediction API")
 
-model_name = "telco-churn-best"
-stage = "Production"
+# Default to sqlite:///mlflow.db if not explicitly set
+tracking_uri = os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
+try:
+    mlflow.set_tracking_uri(tracking_uri)
+except Exception:
+    pass
+
+model_name = os.environ.get("MODEL_NAME", "telco-churn-best")
+stage = os.environ.get("MODEL_STAGE", "Production")
 try:
     model = mlflow.pyfunc.load_model(f"models:/{model_name}/{stage}")
 except Exception as e:
