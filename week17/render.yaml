@@ -10,9 +10,6 @@ services:
     dockerContext: .
     plan: free
     healthCheckPath: /health
-    envVars:
-      - key: PORT
-        value: 8000
 
   # -------------------------------------------------------------
   # Track B: Agentic AI Assistant Backend API (FastAPI)
@@ -38,8 +35,6 @@ services:
         value: 60
       - key: CACHE_ENABLED
         value: true
-      - key: PORT
-        value: 8000
 
   # -------------------------------------------------------------
   # Track B: Interactive Web UI (Streamlit)
@@ -50,7 +45,7 @@ services:
     runtime: docker
     dockerfilePath: Dockerfile
     dockerContext: .
-    dockerCommand: streamlit run app/ui/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    dockerCommand: sh -c "streamlit run app/ui/streamlit_app.py --server.port ${PORT:-8501} --server.address 0.0.0.0"
     plan: free
     envVars:
       - key: API_URL
@@ -58,5 +53,3 @@ services:
           type: web
           name: agentic-ai-backend
           property: host
-      - key: PORT
-        value: 8501

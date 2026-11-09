@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
-RUN uv pip install --no-deps -e .
+RUN uv sync --frozen --no-dev
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
@@ -22,4 +22,4 @@ ENV PATH="/app/.venv/bin:$PATH" \
 
 EXPOSE 8000
 
-CMD ["uvicorn", "src.serve:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn src.serve:app --host 0.0.0.0 --port ${PORT}"]

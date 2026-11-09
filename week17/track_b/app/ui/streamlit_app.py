@@ -5,6 +5,8 @@ import requests
 import streamlit as st
 
 API_URL = os.environ.get("API_URL", "http://localhost:8000")
+if not API_URL.startswith(("http://", "https://")):
+    API_URL = f"http://{API_URL}"
 
 st.set_page_config(
     page_title="Agentic AI Assistant (Week 16)",
