@@ -165,7 +165,7 @@ if user_prompt := st.chat_input("Ask a question, request a calculation, or query
                 "use_cache": use_cache
             }
             try:
-                resp = requests.post(f"{API_URL}/api/chat", json=payload, timeout=30)
+                resp = requests.post(f"{API_URL}/api/chat", json=payload, timeout=120)
                 if resp.status_code == 200:
                     data = resp.json()
                     answer = data.get("answer", "")

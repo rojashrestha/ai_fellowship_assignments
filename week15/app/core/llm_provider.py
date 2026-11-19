@@ -63,29 +63,74 @@ class GeminiClient(BaseLLMClient):
         if not self.api_key:
             raise LLMProviderError("GEMINI_API_KEY is not configured.")
 
-        try:
-            from google import genai
-            from google.genai import types
+        model_name = self.model or "gemini-1.5-flash"
+        if model_name.startswith("models/"):
+            model_name = model_name.replace("models/", "")
 
-            client = genai.Client(api_key=self.api_key)
-            config = types.GenerateContentConfig(
-                temperature=temperature,
-                top_p=top_p,
-                max_output_tokens=max_tokens,
-                system_instruction=system_prompt if system_prompt else None
-            )
-            response = client.models.generate_content(
-                model=self.model,
-                contents=prompt,
-                config=config
-            )
-            return response.text or ""
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+        headers = {
+            "Content-Type": "application/json",
+            "x-goog-api-key": self.api_key
+        }
+        body: Dict[str, Any] = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": temperature,
+                "topP": top_p,
+                "maxOutputTokens": max_tokens
+            }
+        }
+        if system_prompt:
+            body["systemInstruction"] = {"parts": [{"text": system_prompt}]}
+
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as http_client:
+                # Send key via x-goog-api-key header and query parameter for full support of AQ. keys
+                resp = await http_client.post(
+                    f"{url}?key={self.api_key}",
+                    headers=headers,
+                    json=body
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts:
+                            return parts[0].get("text", "")
+                    return ""
+
+                # If requested model gave 404, fallback to gemini-1.5-flash
+                if resp.status_code == 404 and model_name != "gemini-1.5-flash":
+                    fallback_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+                    resp2 = await http_client.post(
+                        f"{fallback_url}?key={self.api_key}",
+                        headers=headers,
+                        json=body
+                    )
+                    if resp2.status_code == 200:
+                        data = resp2.json()
+                        candidates = data.get("candidates", [])
+                        if candidates:
+                            parts = candidates[0].get("content", {}).get("parts", [])
+                            if parts:
+                                return parts[0].get("text", "")
+                        return ""
+
+                error_body = resp.text
+                if resp.status_code == 429:
+                    raise LLMRateLimitError(f"Gemini Rate Limit (429): {error_body}")
+                elif resp.status_code in [500, 502, 503, 504]:
+                    raise LLMServiceUnavailableError(f"Gemini Service Unavailable ({resp.status_code}): {error_body}")
+                else:
+                    raise LLMProviderError(f"Gemini API Error ({resp.status_code}): {error_body}")
+
+        except (LLMRateLimitError, LLMServiceUnavailableError, LLMProviderError):
+            raise
         except Exception as e:
             err_msg = str(e).lower()
-            if "quota" in err_msg or "rate" in err_msg or "429" in err_msg:
-                raise LLMRateLimitError(f"Gemini Rate Limit Exceeded: {e}")
-            elif "connection" in err_msg or "timeout" in err_msg or "503" in err_msg:
-                raise LLMServiceUnavailableError(f"Gemini Service Unavailable: {e}")
+            if "timeout" in err_msg or "connection" in err_msg:
+                raise LLMServiceUnavailableError(f"Gemini Connection Timeout: {e}")
             raise LLMProviderError(f"Gemini generation error: {e}")
 
 

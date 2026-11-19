@@ -2,6 +2,7 @@
 
 import os
 from typing import Optional
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -10,11 +11,18 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: Optional[str] = None
     OPENAI_API_KEY: Optional[str] = None
 
+    @field_validator("GEMINI_API_KEY", "OPENAI_API_KEY", mode="before")
+    @classmethod
+    def clean_quotes(cls, v):
+        if isinstance(v, str):
+            return v.strip("\"' ")
+        return v
+
     # Providers & Models
     PRIMARY_PROVIDER: str = "gemini"  # "gemini", "openai", "vllm", "mock"
     FALLBACK_PROVIDER: Optional[str] = "openai"
 
-    GEMINI_MODEL: str = "gemini-2.5-flash"
+    GEMINI_MODEL: str = "gemini-1.5-flash"
     OPENAI_MODEL: str = "gpt-4o-mini"
     VLLM_MODEL: str = "meta-llama/Meta-Llama-3-8B-Instruct"
     VLLM_BASE_URL: str = "http://localhost:8000/v1"

@@ -124,9 +124,10 @@ class FallbackOrchestrator:
             
             if fallback_callable:
                 try:
-                    logger.warning("Failing over to Fallback LLM provider...")
+                    logger.warning(f"Failing over to Fallback LLM provider due to: {primary_err}")
                     result = await fallback_callable(*args, **kwargs)
-                    return result, "fallback"
+                    note = f"\n\n*(⚠️ Fallback used because primary provider error: `{primary_err}`)*"
+                    return f"{result}{note}", "fallback"
                 except Exception as fallback_err:
                     logger.critical(f"Fallback provider also failed: {fallback_err}")
                     raise HTTPException(
