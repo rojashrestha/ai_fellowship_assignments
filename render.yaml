@@ -4,7 +4,7 @@ services:
   # -------------------------------------------------------------
   - type: web
     name: telco-churn-api
-    rootDir: week17/track_a
+    rootDir: week17_mlops_pipelines/track_a
     runtime: docker
     dockerfilePath: Dockerfile
     dockerContext: .
@@ -16,7 +16,7 @@ services:
   # -------------------------------------------------------------
   - type: web
     name: agentic-ai-backend
-    rootDir: week17/track_b
+    rootDir: week17_mlops_pipelines/track_b
     runtime: docker
     dockerfilePath: Dockerfile
     dockerContext: .
@@ -41,7 +41,7 @@ services:
   # -------------------------------------------------------------
   - type: web
     name: agentic-ai-ui
-    rootDir: week17/track_b
+    rootDir: week17_mlops_pipelines/track_b
     runtime: docker
     dockerfilePath: Dockerfile
     dockerContext: .
